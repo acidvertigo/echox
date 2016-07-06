@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        fasthttp - Fast and unfancy HTTP server framework for Go (Golang) - LabStack Echo
+    </title>
+    <meta name="description" content="Golang micro web framework, High performance, Minimalistic and Fast.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://echo.labstack.com/styles/bulma.min.css">
+    <link rel="stylesheet" href="https://echo.labstack.com/styles/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css">
+    <link rel="stylesheet" href="https://echo.labstack.com/styles/prism.css">
+    <link rel="stylesheet" href="https://echo.labstack.com/styles/echo.css">
+</head>
+
+<body>
+  <section class="hero hero-echo">
+  <div class="hero-head">
+    <header class="nav">
+      <div class="container">
+        <div class="nav-left">
+          <a class="nav-item title" href="https://echo.labstack.com">
+            <img src="https://echo.labstack.com/images/echo.svg" alt="Echo">
+          </a>
+        </div>
+        <div class="nav-right nav-menu">
+          <div class="nav-item">
+            <p class="control has-icon">
+              <input id="search-box" class="input" type="text" placeholder="Search">
+              <i class="fa fa-search"></i>
+            </p>
+          </div>
+          <span class="nav-item">
+            <a class="github-button" href="https://github.com/labstack/echo" data-icon="octicon-star" data-style="mega" data-count-href="/labstack/echo/stargazers" data-count-api="/repos/labstack/echo#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star labstack/echo on GitHub">
+              Star
+            </a>
+          </span>
+        </div>
+        <span class="nav-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </div>
+    </header>
+  </div>
+</section>
+
+  <div class="container">
+  <div class="columns">
+    <div id="search-menu" class="column is-half is-offset-one-quarter"></div>
+  </div>
+</div>
+
+  <section style="margin-top: 40px;">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-3">
+          <aside class="menu">
+  
+  
+    <p class="menu-label">
+      <i class='fa fa-book'></i>
+      Guide
+    </p>
+    <ul class="menu-list">
+      
+        <li>
+          <a href="https://echo.labstack.com/guide/installation">
+            Installation
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/guide/migrating">
+            Migrating
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/guide/customization">
+            Customization
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/guide/static-files">
+            Static Files
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/guide/templates">
+            Templates
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/guide/routing">
+            Routing
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/guide/cookies">
+            Cookies
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/guide/request">
+            Request
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/guide/error-handling">
+            Error Handling
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/guide/testing">
+            Testing
+          </a>
+          
+        </li>
+      
+    </ul>
+  
+    <p class="menu-label">
+      <i class='fa fa-filter'></i>
+      Middleware
+    </p>
+    <ul class="menu-list">
+      
+        <li>
+          <a href="https://echo.labstack.com/middleware/overview">
+            Overview
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/middleware/add-trailing-slash">
+            AddTrailingSlash
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/middleware/basic-auth">
+            BasicAuth
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/middleware/body-limit">
+            BodyLimit
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/middleware/cors">
+            CORS
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/middleware/csrf">
+            CSRF
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/middleware/gzip">
+            Gzip
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/middleware/jwt">
+            JWT
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/middleware/logger">
+            Logger
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/middleware/method-override">
+            MethodOverride
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/middleware/recover">
+            Recover
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/middleware/remove-trailing-slash">
+            RemoveTrailingSlash
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/middleware/secure">
+            Secure
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/middleware/static">
+            Static
+          </a>
+          
+        </li>
+      
+    </ul>
+  
+    <p class="menu-label">
+      <i class='fa fa-code'></i>
+      Recipes
+    </p>
+    <ul class="menu-list">
+      
+        <li>
+          <a href="https://echo.labstack.com/recipes/hello-world">
+            Hello World
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/recipes/crud">
+            CRUD
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/recipes/cors">
+            CORS
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/recipes/http2">
+            HTTP2
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/recipes/middleware">
+            Middleware
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/recipes/websocket">
+            WebSocket
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/recipes/jsonp">
+            JSONP
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/recipes/file-upload">
+            File Upload
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/recipes/streaming-response">
+            Streaming Response
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/recipes/subdomains">
+            Subdomains
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/recipes/jwt">
+            JWT
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/recipes/google-app-engine">
+            Google App Engine
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/recipes/graceful-shutdown">
+            Graceful Shutdown
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://echo.labstack.com/recipes/embed-resources">
+            Embed Resources
+          </a>
+          
+        </li>
+      
+    </ul>
+  
+    <p class="menu-label">
+      <i class='fa fa-file-text-o'></i>
+      Godoc
+    </p>
+    <ul class="menu-list">
+      
+        <li>
+          <a href="https://godoc.org/github.com/labstack/echo">
+            echo
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://godoc.org/github.com/labstack/echo/middleware">
+            middleware
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://godoc.org/github.com/labstack/echo/engine">
+            engine
+          </a>
+          
+        </li>
+      
+        <li>
+          <a href="https://godoc.org/github.com/labstack/echo/engine/standard">
+            standard
+          </a>
+          
+        </li>
+      
+        <li>
+          <a class="is-active" href="https://godoc.org/github.com/labstack/echo/engine/fasthttp">
+            fasthttp
+          </a>
+          
+        </li>
+      
+    </ul>
+  
+</aside>
+
+        </div>
+
+        <div class="column is-9">
+          <article class="content">
+            <section>
+              
+            </section>
+            <footer style="margin-top: 40px;">
+              <div id="disqus_thread"></div>
+              <script type="text/javascript">
+                 
+                var disqus_shortname = 'labstack';
+
+                 
+                (function() {
+                  var dsq = document.createElement('script');
+                  dsq.type = 'text/javascript';
+                  dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+              </script>
+            </footer>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+        <strong>Echo</strong> by <a href="https://labstack.com">LabStack</a>. The source code is licensed
+        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+        is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0">CC ANS 4.0</a>.
+      </p>
+      <p>
+        <a class="icon" href="https://github.com/labstack">
+          <i class="fa fa-github"></i>
+        </a>
+        <a class="icon" href="https://facebook.com/labstack">
+          <i class="fa fa-facebook"></i>
+        </a>
+        <a class="icon" href="https://twitter.com/labstack">
+          <i class="fa fa-twitter-square"></i>
+        </a>
+        <a class="icon" href="https://plus.google.com/+labstack">
+          <i class="fa fa-google-plus-square"></i>
+        </a>
+      </p>
+    </div>
+  </div>
+</footer>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script>
+<script type="text/javascript">
+  docsearch({
+    apiKey: '69dfc65b57ccba29ec34b68aa5b274ed',
+    indexName: 'labstack',
+    inputSelector: '#search-box',
+    autocompleteOptions: {
+      dropdownMenuContainer: '#search-menu'
+    }
+  });
+</script>
+<script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
+<script>
+  ((window.gitter = {}).chat = {}).options = {
+    room: 'labstack/echo'
+  };
+</script>
+<script>
+  window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+  ga('create','UA-51208124-3','auto');ga('send','pageview')
+</script>
+<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+<script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+<script src="https://echo.labstack.com/scripts/prism.js"></script>
+<script src="https://echo.labstack.com/scripts/echo.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>https://echo.labstack.com/</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/middleware/add-trailing-slash</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/middleware/basic-auth</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/middleware/body-limit</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/middleware/cors</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/recipes/cors</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/recipes/crud</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/middleware/csrf</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/guide/cookies</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/guide/customization</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/recipes/embed-resources</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/guide/error-handling</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/recipes/file-upload</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/recipes/google-app-engine</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/recipes/graceful-shutdown</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/middleware/gzip</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/recipes/http2</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/recipes/hello-world</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/guide/installation</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/recipes/jsonp</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/middleware/jwt</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/recipes/jwt</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/middleware/logger</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/middleware/method-override</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/recipes/middleware</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/guide/migrating</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/middleware/overview</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/middleware/recover</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/middleware/remove-trailing-slash</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/guide/request</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/guide/routing</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/middleware/secure</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/middleware/static</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/guide/static-files</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/recipes/streaming-response</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/recipes/subdomains</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/guide/templates</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/guide/testing</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/recipes/websocket</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/godoc/echo/</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/godoc/engine/</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/godoc/fasthttp/</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/godoc/middleware/</loc>
+  </url>
+  
+  <url>
+    <loc>https://echo.labstack.com/godoc/standard/</loc>
+  </url>
+  
+</urlset>

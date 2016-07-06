@@ -1,0 +1,1000 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Fast and unfancy HTTP server framework for Go (Golang) - LabStack Echo</title>
+    <link>https://echo.labstack.com/</link>
+    <description>Recent content on Fast and unfancy HTTP server framework for Go (Golang) - LabStack Echo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="https://echo.labstack.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Add Trailing Slash</title>
+      <link>https://echo.labstack.com/middleware/add-trailing-slash</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/middleware/add-trailing-slash</guid>
+      <description>
+
+&lt;h2 id=&#34;addtrailingslash-middleware&#34;&gt;AddTrailingSlash Middleware&lt;/h2&gt;
+
+&lt;p&gt;AddTrailingSlash middleware adds a trailing slash to the request URI.&lt;/p&gt;
+
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;TrailingSlashConfig struct {
+  // Status code to be used when redirecting the request.
+  // Optional, but when provided the request is redirected using this code.
+  RedirectCode int
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;Usage&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;e := echo.New()
+e.Pre(middleware.AddTrailingSlash())
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;custom-configuration&#34;&gt;Custom Configuration&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;Usage&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;e := echo.New()
+e.Use(middleware.AddTrailingSlashWithConfig(TrailingSlashConfig{
+  RedirectCode: http.StatusMovedPermanently,
+}))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This will add a trailing slash to the request URI and redirect with &lt;code&gt;StatusMovedPermanently&lt;/code&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Basic Auth</title>
+      <link>https://echo.labstack.com/middleware/basic-auth</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/middleware/basic-auth</guid>
+      <description>
+
+&lt;h2 id=&#34;basicauth-middleware&#34;&gt;BasicAuth Middleware&lt;/h2&gt;
+
+&lt;p&gt;BasicAuth middleware provides an HTTP basic authentication.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;For valid credentials it calls the next handler.&lt;/li&gt;
+&lt;li&gt;For invalid credentials, it sends &amp;ldquo;401 - Unauthorized&amp;rdquo; response.&lt;/li&gt;
+&lt;li&gt;For empty or invalid &lt;code&gt;Authorization&lt;/code&gt; header, it sends &amp;ldquo;400 - Bad Request&amp;rdquo; response.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Usage&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;e := echo.New()
+e.Use(middleware.BasicAuth(func(username, password string) bool {
+	if username == &amp;quot;joe&amp;quot; &amp;amp;&amp;amp; password == &amp;quot;secret&amp;quot; {
+		return true
+	}
+	return false
+}))
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Body Limit</title>
+      <link>https://echo.labstack.com/middleware/body-limit</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/middleware/body-limit</guid>
+      <description>
+
+&lt;h2 id=&#34;bodylimit-middleware&#34;&gt;BodyLimit Middleware&lt;/h2&gt;
+
+&lt;p&gt;BodyLimit middleware sets the maximum allowed size for a request body, if the
+size exceeds the configured limit, it sends &amp;ldquo;413 - Request Entity Too Large&amp;rdquo;
+response. The body limit is determined based on both &lt;code&gt;Content-Length&lt;/code&gt; request
+header and actual content read, which makes it super secure.&lt;/p&gt;
+
+&lt;p&gt;Limit can be specified as &lt;code&gt;4x&lt;/code&gt; or &lt;code&gt;4xB&lt;/code&gt;, where x is one of the multiple from K, M,
+G, T or P.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Usage&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;e := echo.New()
+e.Use(middleware.BodyLimit(&amp;quot;2M&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>CORS</title>
+      <link>https://echo.labstack.com/middleware/cors</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/middleware/cors</guid>
+      <description>
+
+&lt;h2 id=&#34;cors-middleware&#34;&gt;CORS Middleware&lt;/h2&gt;
+
+&lt;p&gt;CORS middleware implements &lt;a href=&#34;http://www.w3.org/TR/cors&#34;&gt;CORS&lt;/a&gt; specification.
+CORS gives web servers cross-domain access controls, which enable secure cross-domain
+data transfers.&lt;/p&gt;
+
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;CORSConfig struct {
+  // AllowOrigin defines a list of origins that may access the resource.
+  // Optional. Default value []string{&amp;quot;*&amp;quot;}.
+  AllowOrigins []string
+
+  // AllowMethods defines a list methods allowed when accessing the resource.
+  // This is used in response to a preflight request.
+  // Optional. Default value DefaultCORSConfig.AllowMethods.
+  AllowMethods []string
+
+  // AllowHeaders defines a list of request headers that can be used when
+  // making the actual request. This in response to a preflight request.
+  // Optional. Default value []string{}.
+  AllowHeaders []string
+
+  // AllowCredentials indicates whether or not the response to the request
+  // can be exposed when the credentials flag is true. When used as part of
+  // a response to a preflight request, this indicates whether or not the
+  // actual request can be made using credentials.
+  // Optional. Default value false.
+  AllowCredentials bool
+
+  // ExposeHeaders defines a whitelist headers that clients are allowed to
+  // access.
+  // Optional. Default value []string{}.
+  ExposeHeaders []string
+
+  // MaxAge indicates how long (in seconds) the results of a preflight request
+  // can be cached.
+  // Optional. Default value 0.
+  MaxAge int
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;default-configuration&#34;&gt;Default Configuration&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;DefaultCORSConfig = CORSConfig{
+	AllowOrigins: []string{&amp;quot;*&amp;quot;},
+	AllowMethods: []string{echo.GET, echo.HEAD, echo.PUT, echo.PATCH, echo.POST, echo.DELETE},
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;Usage&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;e.Use(middleware.CORS())&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;custom-configuration&#34;&gt;Custom Configuration&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;Usage&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;e := echo.New()
+e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+  AllowOrigins: []string{&amp;quot;https://labstack.com&amp;quot;, &amp;quot;https://labstack.net&amp;quot;},
+  AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+}))
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>CORS</title>
+      <link>https://echo.labstack.com/recipes/cors</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/recipes/cors</guid>
+      <description>
+
+&lt;h2 id=&#34;cors-recipe&#34;&gt;CORS Recipe&lt;/h2&gt;
+
+&lt;h3 id=&#34;server&#34;&gt;Server&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;server.go&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre data-src=&#34;https://raw.githubusercontent.com/labstack/echox/master/recipe/cors/server.go&#34;&gt;
+&lt;/pre&gt;
+
+
+&lt;h3 id=&#34;maintainers&#34;&gt;Maintainers&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/vishr&#34;&gt;vishr&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;{#HUGOSHORTCODE-2#&#34;&gt;[Source Code](&lt;/h3&gt;
+
+&lt;p&gt;#})&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>CRUD</title>
+      <link>https://echo.labstack.com/recipes/crud</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/recipes/crud</guid>
+      <description>
+
+&lt;h2 id=&#34;crud-recipe&#34;&gt;CRUD Recipe&lt;/h2&gt;
+
+&lt;h3 id=&#34;server&#34;&gt;Server&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;server.go&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre data-src=&#34;https://raw.githubusercontent.com/labstack/echox/master/recipe/crud/server.go&#34;&gt;
+&lt;/pre&gt;
+
+
+&lt;h3 id=&#34;client&#34;&gt;Client&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;curl&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;create-user&#34;&gt;Create User&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;curl -X POST \
+  -H &#39;Content-Type: application/json&#39; \
+  -d &#39;{&amp;quot;name&amp;quot;:&amp;quot;Joe Smith&amp;quot;}&#39; \
+  localhost:1323/users
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;Response&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;{
+  &amp;quot;id&amp;quot;: 1,
+  &amp;quot;name&amp;quot;: &amp;quot;Joe Smith&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;get-user&#34;&gt;Get User&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;curl localhost:1323/users/1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;Response&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;{
+  &amp;quot;id&amp;quot;: 1,
+  &amp;quot;name&amp;quot;: &amp;quot;Joe Smith&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;update-user&#34;&gt;Update User&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;curl -X PUT \
+  -H &#39;Content-Type: application/json&#39; \
+  -d &#39;{&amp;quot;name&amp;quot;:&amp;quot;Joe&amp;quot;}&#39; \
+  localhost:1323/users/1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;Response&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;{
+  &amp;quot;id&amp;quot;: 1,
+  &amp;quot;name&amp;quot;: &amp;quot;Joe&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;delete-user&#34;&gt;Delete User&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;curl -X DELETE localhost:1323/users/1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;Response&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;NoContent - 204&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;maintainers&#34;&gt;Maintainers&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/vishr&#34;&gt;vishr&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;{#HUGOSHORTCODE-2#&#34;&gt;[Source Code](&lt;/h3&gt;
+
+&lt;p&gt;#})&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>CSRF</title>
+      <link>https://echo.labstack.com/middleware/csrf</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/middleware/csrf</guid>
+      <description>
+
+&lt;h2 id=&#34;csrf-middleware&#34;&gt;CSRF Middleware&lt;/h2&gt;
+
+&lt;p&gt;Cross-site request forgery, also known as one-click attack or session riding and
+abbreviated as CSRF (sometimes pronounced sea-surf) or XSRF, is a type of malicious
+exploit of a website where unauthorized commands are transmitted from a user that
+the website trusts.&lt;/p&gt;
+
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;CSRFConfig struct {
+  // Key to create CSRF token.
+  Secret []byte `json:&amp;quot;secret&amp;quot;`
+
+  // TokenLookup is a string in the form of &amp;quot;&amp;lt;source&amp;gt;:&amp;lt;key&amp;gt;&amp;quot; that is used
+  // to extract token from the request.
+  // Optional. Default value &amp;quot;header:X-CSRF-Token&amp;quot;.
+  // Possible values:
+  // - &amp;quot;header:&amp;lt;name&amp;gt;&amp;quot;
+  // - &amp;quot;form:&amp;lt;name&amp;gt;&amp;quot;
+  // - &amp;quot;header:&amp;lt;name&amp;gt;&amp;quot;
+  TokenLookup string `json:&amp;quot;token_lookup&amp;quot;`
+
+  // Context key to store generated CSRF token into context.
+  // Optional. Default value &amp;quot;csrf&amp;quot;.
+  ContextKey string `json:&amp;quot;context_key&amp;quot;`
+
+  // Name of the CSRF cookie. This cookie will store CSRF token.
+  // Optional. Default value &amp;quot;csrf&amp;quot;.
+  CookieName string `json:&amp;quot;cookie_name&amp;quot;`
+
+  // Domain of the CSRF cookie.
+  // Optional. Default value none.
+  CookieDomain string `json:&amp;quot;cookie_domain&amp;quot;`
+
+  // Path of the CSRF cookie.
+  // Optional. Default value none.
+  CookiePath string `json:&amp;quot;cookie_path&amp;quot;`
+
+  // Expiration time of the CSRF cookie.
+  // Optional. Default value 24H.
+  CookieExpires time.Time `json:&amp;quot;cookie_expires&amp;quot;`
+
+  // Indicates if CSRF cookie is secure.
+  CookieSecure bool `json:&amp;quot;cookie_secure&amp;quot;`
+  // Optional. Default value false.
+
+  // Indicates if CSRF cookie is HTTP only.
+  // Optional. Default value false.
+  CookieHTTPOnly bool `json:&amp;quot;cookie_http_only&amp;quot;`
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;default-configuration&#34;&gt;Default Configuration&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;DefaultCSRFConfig = CSRFConfig{
+  TokenLookup:   &amp;quot;header:&amp;quot; + echo.HeaderXCSRFToken,
+  ContextKey:    &amp;quot;csrf&amp;quot;,
+  CookieName:    &amp;quot;csrf&amp;quot;,
+  CookieExpires: time.Now().Add(24 * time.Hour),
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;Usage&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;e.Use(middleware.CSRF(&amp;quot;secret&amp;quot;))&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;custom-configuration&#34;&gt;Custom Configuration&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;Usage&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;e := echo.New()
+e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
+  TokenLookup: &amp;quot;header:X-XSRF-TOKEN&amp;quot;,
+}))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Example above uses &lt;code&gt;X-XSRF-TOKEN&lt;/code&gt; request header to extract CSRF token.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Cookies</title>
+      <link>https://echo.labstack.com/guide/cookies</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/guide/cookies</guid>
+      <description>
+
+&lt;h2 id=&#34;cookies&#34;&gt;Cookies&lt;/h2&gt;
+
+&lt;p&gt;Cookie is a small piece of data sent from a website and stored in the user&amp;rsquo;s web
+browser while the user is browsing. Every time the user loads the website, the browser
+sends the cookie back to the server to notify the user&amp;rsquo;s previous activity.
+Cookies were designed to be a reliable mechanism for websites to remember stateful
+information (such as items added in the shopping cart in an online store) or to
+record the user&amp;rsquo;s browsing activity (including clicking particular buttons, logging
+in, or recording which pages were visited in the past). Cookies can also store
+passwords and form content a user has previously entered, such as a credit card
+number or an address.&lt;/p&gt;
+
+&lt;h3 id=&#34;cookie-attributes&#34;&gt;Cookie Attributes&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;Attribute&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Optional&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;Name&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;Value&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;Path&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;Domain&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;Expires&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;Secure&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;HTTPOnly&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&#34;create-a-cookie&#34;&gt;Create a Cookie&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func writeCookie(c echo.Context) error {
+	cookie := new(echo.Cookie)
+	cookie.SetName(&amp;quot;username&amp;quot;)
+	cookie.SetValue(&amp;quot;jon&amp;quot;)
+	cookie.SetExpires(time.Now().Add(24 * time.Hour))
+	c.SetCookie(cookie)
+	return c.String(http.StatusOK, &amp;quot;write a cookie&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Cookie is created using &lt;code&gt;new(echo.Cookie)&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Attributes for the cookie are set using &lt;code&gt;Setter&lt;/code&gt; functions.&lt;/li&gt;
+&lt;li&gt;Finally &lt;code&gt;c.SetCookie(cookies)&lt;/code&gt; adds a &lt;code&gt;Set-Cookie&lt;/code&gt; header in HTTP response.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;read-a-cookie&#34;&gt;Read a Cookie&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func readCookie(c echo.Context) error {
+	cookie, err := c.Cookie(&amp;quot;username&amp;quot;)
+	if err != nil {
+		return err
+	}
+	fmt.Println(cookie.Name())
+	fmt.Println(cookie.Value())
+	return c.String(http.StatusOK, &amp;quot;read a cookie&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Cookie is read by name using &lt;code&gt;c.Cookie(&amp;quot;username&amp;quot;)&lt;/code&gt; from the HTTP request.&lt;/li&gt;
+&lt;li&gt;Cookie attributes are accessed using &lt;code&gt;Getter&lt;/code&gt; function.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;read-all-cookies&#34;&gt;Read all Cookies&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func readAllCookies(c echo.Context) error {
+	for _, cookie := range c.Cookies() {
+		fmt.Println(cookie.Name())
+		fmt.Println(cookie.Value())
+	}
+	return c.String(http.StatusOK, &amp;quot;read all cookie&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Customization</title>
+      <link>https://echo.labstack.com/guide/customization</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/guide/customization</guid>
+      <description>
+
+&lt;h2 id=&#34;customization&#34;&gt;Customization&lt;/h2&gt;
+
+&lt;h3 id=&#34;http-error-handler&#34;&gt;HTTP Error Handler&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Echo#SetHTTPErrorHandler(h HTTPErrorHandler)&lt;/code&gt; registers a custom &lt;code&gt;Echo#HTTPErrorHandler&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Default HTTP error handler rules:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If error is of type &lt;code&gt;Echo#HTTPError&lt;/code&gt; it sends HTTP response with status code &lt;code&gt;HTTPError.Code&lt;/code&gt;
+and message &lt;code&gt;HTTPError.Message&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Else it sends &lt;code&gt;500 - Internal Server Error&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;If debug mode is enabled, it uses &lt;code&gt;error.Error()&lt;/code&gt; as status message.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;debug&#34;&gt;Debug&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Echo#SetDebug(on bool)&lt;/code&gt; enable/disable debug mode.&lt;/p&gt;
+
+&lt;h3 id=&#34;logging&#34;&gt;Logging&lt;/h3&gt;
+
+&lt;h4 id=&#34;custom-logger&#34;&gt;Custom Logger&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;Echo#SetLogger(l log.Logger)&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;SetLogger defines a custom logger.&lt;/p&gt;
+
+&lt;h4 id=&#34;log-output&#34;&gt;Log Output&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;Echo#SetLogOutput(w io.Writer)&lt;/code&gt; sets the output destination for the logger. Default
+value is &lt;code&gt;os.Stdout&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;To completely disable logs use &lt;code&gt;Echo#SetLogOutput(io.Discard)&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;log-level&#34;&gt;Log Level&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;Echo#SetLogLevel(l log.Level)&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;SetLogLevel sets the log level for the logger. Default value &lt;code&gt;3&lt;/code&gt; (ERROR).
+Possible values:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;0&lt;/code&gt; (DEBUG)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;1&lt;/code&gt; (INFO)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;2&lt;/code&gt; (WARN)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;3&lt;/code&gt;   (ERROR)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;4&lt;/code&gt;   (FATAL)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;5&lt;/code&gt; (OFF)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;http-engine&#34;&gt;HTTP Engine&lt;/h3&gt;
+
+&lt;p&gt;Echo currently supports standard and &lt;a href=&#34;https://github.com/valyala/fasthttp&#34;&gt;fasthttp&lt;/a&gt;
+server engines. Echo utilizes interfaces to abstract the internal implementation
+of these servers so you can seamlessly switch from one engine to another based on
+your preference.&lt;/p&gt;
+
+&lt;h4 id=&#34;running-a-standard-http-server&#34;&gt;Running a standard HTTP server&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;e.Run(standard.New(&amp;quot;:1323&amp;quot;))&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;running-a-fasthttp-server&#34;&gt;Running a fasthttp server&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;e.Run(fasthttp.New(&amp;quot;:1323&amp;quot;))&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;running-a-server-with-tls-configuration&#34;&gt;Running a server with TLS configuration&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;e.Run(&amp;lt;engine&amp;gt;.WithTLS(&amp;quot;:1323&amp;quot;, &amp;quot;&amp;lt;certFile&amp;gt;&amp;quot;, &amp;quot;&amp;lt;keyFile&amp;gt;&amp;quot;))&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;running-a-server-with-engine-configuration&#34;&gt;Running a server with engine configuration&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;e.Run(&amp;lt;engine&amp;gt;.WithConfig(&amp;lt;config&amp;gt;))&lt;/code&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;configuration&#34;&gt;Configuration&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;Config struct {
+  Address      string        // TCP address to listen on.
+  Listener     net.Listener  // Custom `net.Listener`. If set, server accepts connections on it.
+  TLSCertFile  string        // TLS certificate file path.
+  TLSKeyFile   string        // TLS key file path.
+  ReadTimeout  time.Duration // Maximum duration before timing out read of the request.
+  WriteTimeout time.Duration // Maximum duration before timing out write of the response.
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;access-internal-server-instance-and-configure-its-properties&#34;&gt;Access internal server instance and configure its properties&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;s := standard.New(&amp;quot;:1323&amp;quot;)
+s.MaxHeaderBytes = 1 &amp;lt;&amp;lt; 20
+e.Run(s)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Embed Resources</title>
+      <link>https://echo.labstack.com/recipes/embed-resources</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/recipes/embed-resources</guid>
+      <description>
+
+&lt;h2 id=&#34;embed-resources-recipe&#34;&gt;Embed Resources Recipe&lt;/h2&gt;
+
+&lt;h3 id=&#34;with-go-rice&#34;&gt;With go.rice&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;server.go&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre data-src=&#34;https://raw.githubusercontent.com/labstack/echox/master/recipe/embed-resources/server.go&#34;&gt;
+&lt;/pre&gt;
+
+
+&lt;h3 id=&#34;maintainers&#34;&gt;Maintainers&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/caarlos0&#34;&gt;caarlos0&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/maddie&#34;&gt;maddie&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;{#HUGOSHORTCODE-2#&#34;&gt;[Source Code](&lt;/h3&gt;
+
+&lt;p&gt;#})&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Error Handling</title>
+      <link>https://echo.labstack.com/guide/error-handling</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/guide/error-handling</guid>
+      <description>
+
+&lt;h2 id=&#34;error-handling&#34;&gt;Error Handling&lt;/h2&gt;
+
+&lt;p&gt;Echo advocates centralized HTTP error handling by returning error from middleware
+or handlers.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Log errors from a unified location&lt;/li&gt;
+&lt;li&gt;Send customized HTTP responses&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For example, when basic auth middleware finds invalid credentials it returns
+&lt;code&gt;401 - Unauthorized&lt;/code&gt; error, aborting the current HTTP request.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+	&amp;quot;net/http&amp;quot;
+
+	&amp;quot;github.com/labstack/echo&amp;quot;
+)
+
+func main() {
+	e := echo.New()
+	e.Use(func(c echo.Context) error {
+		// Extract the credentials from HTTP request header and perform a security
+		// check
+
+		// For invalid credentials
+		return echo.NewHTTPError(http.StatusUnauthorized)
+	})
+	e.GET(&amp;quot;/welcome&amp;quot;, welcome)
+	e.Run(&amp;quot;:1323&amp;quot;)
+}
+
+func welcome(c echo.Context) error {
+	return c.String(http.StatusOK, &amp;quot;Welcome!&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;See how &lt;a href=&#34;https://echo.labstack.com/guide/customization#http-error-handler&#34;&gt;HTTPErrorHandler&lt;/a&gt; handles it.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>File Upload</title>
+      <link>https://echo.labstack.com/recipes/file-upload</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/recipes/file-upload</guid>
+      <description>
+
+&lt;h2 id=&#34;file-upload-recipe&#34;&gt;File Upload Recipe&lt;/h2&gt;
+
+&lt;h3 id=&#34;how-to-upload-single-file-with-fields&#34;&gt;How to upload single file with fields?&lt;/h3&gt;
+
+&lt;h4 id=&#34;server&#34;&gt;Server&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;server.go&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre data-src=&#34;https://raw.githubusercontent.com/labstack/echox/master/recipe/file-upload/single/server.go&#34;&gt;
+&lt;/pre&gt;
+
+
+&lt;h4 id=&#34;client&#34;&gt;Client&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;index.html&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre data-src=&#34;https://raw.githubusercontent.com/labstack/echox/master/recipe/file-upload/single/public/index.html&#34;&gt;
+&lt;/pre&gt;
+
+
+&lt;h3 id=&#34;how-to-upload-multiple-files-with-fields&#34;&gt;How to upload multiple files with fields?&lt;/h3&gt;
+
+&lt;h4 id=&#34;server-1&#34;&gt;Server&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;server.go&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre data-src=&#34;https://raw.githubusercontent.com/labstack/echox/master/recipe/file-upload/multiple/server.go&#34;&gt;
+&lt;/pre&gt;
+
+
+&lt;h4 id=&#34;client-1&#34;&gt;Client&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;index.html&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre data-src=&#34;https://raw.githubusercontent.com/labstack/echox/master/recipe/file-upload/multiple/public/index.html&#34;&gt;
+&lt;/pre&gt;
+
+
+&lt;h3 id=&#34;maintainers&#34;&gt;Maintainers&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/vishr&#34;&gt;vishr&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;source-code&#34;&gt;Source Code&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/labstack/echox/tree/master/recipe/file-upload/single
+&#34;&gt;single&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/labstack/echox/tree/master/recipe/file-upload/multiple
+&#34;&gt;multiple&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Google App Engine</title>
+      <link>https://echo.labstack.com/recipes/google-app-engine</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/recipes/google-app-engine</guid>
+      <description>
+
+&lt;h2 id=&#34;google-app-engine-recipe&#34;&gt;Google App Engine Recipe&lt;/h2&gt;
+
+&lt;p&gt;Google App Engine (GAE) provides a range of hosting options from pure PaaS (App Engine Classic)
+through Managed VMs to fully self-managed or container-driven Compute Engine instances. Echo
+works great with all of these but requires a few changes to the usual examples to run on the
+AppEngine Classic and Managed VM options. With a small amount of effort though it&amp;rsquo;s possible
+to produce a codebase that will run on these and also non-managed platforms automatically.&lt;/p&gt;
+
+&lt;p&gt;We&amp;rsquo;ll walk through the changes needed to support each option.&lt;/p&gt;
+
+&lt;h3 id=&#34;standalone&#34;&gt;Standalone&lt;/h3&gt;
+
+&lt;p&gt;Wait? What? I thought this was about AppEngine! Bear with me - the easiest way to show the changes
+required is to start with a setup for standalone and work from there plus there&amp;rsquo;s no reason we
+wouldn&amp;rsquo;t want to retain the ability to run our app anywhere, right?&lt;/p&gt;
+
+&lt;p&gt;We take advantage of the go &lt;a href=&#34;http://golang.org/pkg/go/build/&#34;&gt;build constraints or tags&lt;/a&gt; to change
+how we create and run the Echo server for each platform while keeping the rest of the application
+(e.g. handler wireup) the same across all of them.&lt;/p&gt;
+
+&lt;p&gt;First, we have the normal setup based on the examples but we split it into two files - &lt;code&gt;app.go&lt;/code&gt; will
+be common to all variations and holds the Echo instance variable. We initialise it from a function
+and because it is a &lt;code&gt;var&lt;/code&gt; this will happen &lt;em&gt;before&lt;/em&gt; any &lt;code&gt;init()&lt;/code&gt; functions run - a feature that we&amp;rsquo;ll
+use to connect our handlers later.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;app.go&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre data-src=&#34;https://raw.githubusercontent.com/labstack/echox/master/recipe/google-app-engine/app.go&#34;&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;A separate source file contains the function to create the Echo instance and add the static
+file handlers and middleware. Note the build tag on the first line which says to use this when &lt;em&gt;not&lt;/em&gt;
+bulding with appengine or appenginevm tags (which thoese platforms automatically add for us). We also
+have the &lt;code&gt;main()&lt;/code&gt; function to start serving our app as normal. This should all be very familiar.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;app-standalone.go&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre data-src=&#34;https://raw.githubusercontent.com/labstack/echox/master/recipe/google-app-engine/app-standalone.go&#34;&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;The handler-wireup that would normally also be a part of this Echo setup moves to separate files which
+take advantage of the ability to have multiple &lt;code&gt;init()&lt;/code&gt; functions which run &lt;em&gt;after&lt;/em&gt; the &lt;code&gt;e&lt;/code&gt; Echo var is
+initialised but &lt;em&gt;before&lt;/em&gt; the &lt;code&gt;main()&lt;/code&gt; function is executed. These allow additional handlers to attach
+themselves to the instance - I&amp;rsquo;ve found the &lt;code&gt;Group&lt;/code&gt; feature naturally fits into this pattern with a file
+per REST endpoint, often with a higher-level &lt;code&gt;api&lt;/code&gt; group created that they attach to instead of the root
+Echo instance directly (so things like CORS middleware can be added at this higher common-level).&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;users.go&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre data-src=&#34;https://raw.githubusercontent.com/labstack/echox/master/recipe/google-app-engine/users.go&#34;&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;If we run our app it should execute as it did before when everything was in one file although we have
+at least gained the ability to organize our handlers a little more cleanly.&lt;/p&gt;
+
+&lt;h3 id=&#34;appengine-classic-and-managed-vms&#34;&gt;AppEngine Classic and Managed VMs&lt;/h3&gt;
+
+&lt;p&gt;So far we&amp;rsquo;ve seen how to split apart the Echo creation and setup but still have the same app that
+still only runs standalone. Now we&amp;rsquo;ll see hwo those changes allow us to add support for AppEngine
+hosting.&lt;/p&gt;
+
+&lt;p&gt;Refer to the &lt;a href=&#34;https://cloud.google.com/appengine/docs/go/&#34;&gt;AppEngine site&lt;/a&gt; for full configuration
+and deployment information.&lt;/p&gt;
+
+&lt;h4 id=&#34;app-yaml-configuration-file&#34;&gt;app.yaml configuration file&lt;/h4&gt;
+
+&lt;p&gt;Both of these are Platform as as Service options running on either sandboxed micro-containers
+or managed Compute Engine instances. Both require an &lt;code&gt;app.yaml&lt;/code&gt; file to describe the app to
+the service. While the app &lt;em&gt;could&lt;/em&gt; still serve all it&amp;rsquo;s static files itself, one of the benefits
+of the platform is having Google&amp;rsquo;s infrastructure handle that for us so it can be offloaded and
+the app only has to deal with dynamic requests. The platform also handles logging and http gzip
+compression so these can be removed from the codebase as well.&lt;/p&gt;
+
+&lt;p&gt;The yaml file also contains other options to control instance size and auto-scaling so for true
+deployment freedom you would likely have separate &lt;code&gt;app-classic.yaml&lt;/code&gt; and &lt;code&gt;app-vm.yaml&lt;/code&gt; files and
+this can help when making the transition from AppEngine Classic to Managed VMs.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;app-engine.yaml&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre data-src=&#34;https://raw.githubusercontent.com/labstack/echox/master/recipe/google-app-engine/app-engine.yaml&#34;&gt;
+&lt;/pre&gt;
+
+
+&lt;h4 id=&#34;router-configuration&#34;&gt;Router configuration&lt;/h4&gt;
+
+&lt;p&gt;We&amp;rsquo;ll now use the &lt;a href=&#34;http://golang.org/pkg/go/build/&#34;&gt;build constraints&lt;/a&gt; again like we did when creating
+our &lt;code&gt;app-standalone.go&lt;/code&gt; instance but this time with the opposite tags to use this file &lt;em&gt;if&lt;/em&gt; the build has
+the appengine or appenginevm tags (added automatically when deploying to these platforms).&lt;/p&gt;
+
+&lt;p&gt;This allows us to replace the &lt;code&gt;createMux()&lt;/code&gt; function to create our Echo server &lt;em&gt;without&lt;/em&gt; any of the
+static file handling and logging + gzip middleware which is no longer required. Also worth nothing is
+that GAE classic provides a wrapper to handle serving the app so instead of a &lt;code&gt;main()&lt;/code&gt; function where
+we run the server, we instead wire up the router to the default &lt;code&gt;http.Handler&lt;/code&gt; instead.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;app-engine.go&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre data-src=&#34;https://raw.githubusercontent.com/labstack/echox/master/recipe/google-app-engine/app-engine.go&#34;&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;Managed VMs are slightly different. They are expected to respond to requests on port 8080 as well
+as special health-check requests used by the service to detect if an instance is still running in
+order to provide automated failover and instance replacement. The &lt;code&gt;google.golang.org/appengine&lt;/code&gt;
+package provides this for us so we have a slightly different version for Managed VMs:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;app-managed.go&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre data-src=&#34;https://raw.githubusercontent.com/labstack/echox/master/recipe/google-app-engine/app-managed.go&#34;&gt;
+&lt;/pre&gt;
+
+
+&lt;p&gt;So now we have three different configurations. We can build and run our app as normal so it can
+be executed locally, on a full Compute Engine instance or any other traditional hosting provider
+(including EC2, Docker etc&amp;hellip;). This build will ignore the code in appengine and appenginevm tagged
+files and the &lt;code&gt;app.yaml&lt;/code&gt; file is meaningless to anything other than the AppEngine platform.&lt;/p&gt;
+
+&lt;p&gt;We can also run locally using the &lt;a href=&#34;https://cloud.google.com/appengine/downloads&#34;&gt;Google AppEngine SDK for Go&lt;/a&gt;
+either emulating &lt;a href=&#34;https://cloud.google.com/appengine/docs/go/tools/devserver&#34;&gt;AppEngine Classic&lt;/a&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;goapp serve
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Or &lt;a href=&#34;https://cloud.google.com/appengine/docs/managed-vms/sdk#run-local&#34;&gt;Managed VMs&lt;/a&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;gcloud config set project [your project id]
+gcloud preview app run .
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And of course we can deploy our app to both of these platforms for easy and inexpensive auto-scaling joy.&lt;/p&gt;
+
+&lt;p&gt;Depending on what your app actually does it&amp;rsquo;s possible you may need to make other changes to allow
+switching between AppEngine provided service such as Datastore and alternative storage implementations
+such as MongoDB. A combination of go interfaces and build constraints can make this fairly straightforward
+but is outside the scope of this recipe.&lt;/p&gt;
+
+&lt;h3 id=&#34;maintainers&#34;&gt;Maintainers&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/CaptainCodeman&#34;&gt;CaptainCodeman&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;{#HUGOSHORTCODE-7#&#34;&gt;[Source Code](&lt;/h3&gt;
+
+&lt;p&gt;#})&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Graceful Shutdown</title>
+      <link>https://echo.labstack.com/recipes/graceful-shutdown</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/recipes/graceful-shutdown</guid>
+      <description>
+
+&lt;h2 id=&#34;graceful-shutdown-recipe&#34;&gt;Graceful Shutdown Recipe&lt;/h2&gt;
+
+&lt;h3 id=&#34;using-grace-https-github-com-facebookgo-grace&#34;&gt;Using &lt;a href=&#34;https://github.com/facebookgo/grace&#34;&gt;grace&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;server.go&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre data-src=&#34;https://raw.githubusercontent.com/labstack/echox/master/recipe/graceful-shutdown/grace/server.go&#34;&gt;
+&lt;/pre&gt;
+
+
+&lt;h3 id=&#34;using-graceful-https-github-com-tylerb-graceful&#34;&gt;Using &lt;a href=&#34;https://github.com/tylerb/graceful&#34;&gt;graceful&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;server.go&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre data-src=&#34;https://raw.githubusercontent.com/labstack/echox/master/recipe/graceful-shutdown/graceful/server.go&#34;&gt;
+&lt;/pre&gt;
+
+
+&lt;h3 id=&#34;maintainers&#34;&gt;Maintainers&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/mertenvg&#34;&gt;mertenvg&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;source-code&#34;&gt;Source Code&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/labstack/echox/tree/master/recipe/graceful-shutdown/graceful
+&#34;&gt;graceful&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/labstack/echox/tree/master/recipe/graceful-shutdown/grace
+&#34;&gt;grace&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gzip</title>
+      <link>https://echo.labstack.com/middleware/gzip</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/middleware/gzip</guid>
+      <description>
+
+&lt;h2 id=&#34;gzip-middleware&#34;&gt;Gzip Middleware&lt;/h2&gt;
+
+&lt;p&gt;Gzip middleware compresses HTTP response using gzip compression scheme.&lt;/p&gt;
+
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;GzipConfig struct {
+  // Gzip compression level.
+  // Optional. Default value -1.
+  Level int
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;default-configuration&#34;&gt;Default Configuration&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;DefaultGzipConfig = GzipConfig{
+  Level: -1,
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;Usage&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;e.Use(middleware.Gzip())&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;custom-configuration&#34;&gt;Custom Configuration&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;Usage&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;e := echo.New()
+e.Use(middleware.GzipWithConfig(middleware.GzipConfig{
+  Level: 5
+}))
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

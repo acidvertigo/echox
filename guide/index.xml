@@ -1,0 +1,922 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Guides on Fast and unfancy HTTP server framework for Go (Golang) - LabStack Echo</title>
+    <link>https://echo.labstack.com/guide/</link>
+    <description>Recent content in Guides on Fast and unfancy HTTP server framework for Go (Golang) - LabStack Echo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="https://echo.labstack.com/guide/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Cookies</title>
+      <link>https://echo.labstack.com/guide/cookies</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/guide/cookies</guid>
+      <description>
+
+&lt;h2 id=&#34;cookies&#34;&gt;Cookies&lt;/h2&gt;
+
+&lt;p&gt;Cookie is a small piece of data sent from a website and stored in the user&amp;rsquo;s web
+browser while the user is browsing. Every time the user loads the website, the browser
+sends the cookie back to the server to notify the user&amp;rsquo;s previous activity.
+Cookies were designed to be a reliable mechanism for websites to remember stateful
+information (such as items added in the shopping cart in an online store) or to
+record the user&amp;rsquo;s browsing activity (including clicking particular buttons, logging
+in, or recording which pages were visited in the past). Cookies can also store
+passwords and form content a user has previously entered, such as a credit card
+number or an address.&lt;/p&gt;
+
+&lt;h3 id=&#34;cookie-attributes&#34;&gt;Cookie Attributes&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;left&#34;&gt;Attribute&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Optional&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;Name&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;Value&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;No&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;Path&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;Domain&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;Expires&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;Secure&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;code&gt;HTTPOnly&lt;/code&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Yes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&#34;create-a-cookie&#34;&gt;Create a Cookie&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func writeCookie(c echo.Context) error {
+	cookie := new(echo.Cookie)
+	cookie.SetName(&amp;quot;username&amp;quot;)
+	cookie.SetValue(&amp;quot;jon&amp;quot;)
+	cookie.SetExpires(time.Now().Add(24 * time.Hour))
+	c.SetCookie(cookie)
+	return c.String(http.StatusOK, &amp;quot;write a cookie&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Cookie is created using &lt;code&gt;new(echo.Cookie)&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Attributes for the cookie are set using &lt;code&gt;Setter&lt;/code&gt; functions.&lt;/li&gt;
+&lt;li&gt;Finally &lt;code&gt;c.SetCookie(cookies)&lt;/code&gt; adds a &lt;code&gt;Set-Cookie&lt;/code&gt; header in HTTP response.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;read-a-cookie&#34;&gt;Read a Cookie&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func readCookie(c echo.Context) error {
+	cookie, err := c.Cookie(&amp;quot;username&amp;quot;)
+	if err != nil {
+		return err
+	}
+	fmt.Println(cookie.Name())
+	fmt.Println(cookie.Value())
+	return c.String(http.StatusOK, &amp;quot;read a cookie&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Cookie is read by name using &lt;code&gt;c.Cookie(&amp;quot;username&amp;quot;)&lt;/code&gt; from the HTTP request.&lt;/li&gt;
+&lt;li&gt;Cookie attributes are accessed using &lt;code&gt;Getter&lt;/code&gt; function.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;read-all-cookies&#34;&gt;Read all Cookies&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func readAllCookies(c echo.Context) error {
+	for _, cookie := range c.Cookies() {
+		fmt.Println(cookie.Name())
+		fmt.Println(cookie.Value())
+	}
+	return c.String(http.StatusOK, &amp;quot;read all cookie&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Customization</title>
+      <link>https://echo.labstack.com/guide/customization</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/guide/customization</guid>
+      <description>
+
+&lt;h2 id=&#34;customization&#34;&gt;Customization&lt;/h2&gt;
+
+&lt;h3 id=&#34;http-error-handler&#34;&gt;HTTP Error Handler&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Echo#SetHTTPErrorHandler(h HTTPErrorHandler)&lt;/code&gt; registers a custom &lt;code&gt;Echo#HTTPErrorHandler&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Default HTTP error handler rules:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If error is of type &lt;code&gt;Echo#HTTPError&lt;/code&gt; it sends HTTP response with status code &lt;code&gt;HTTPError.Code&lt;/code&gt;
+and message &lt;code&gt;HTTPError.Message&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Else it sends &lt;code&gt;500 - Internal Server Error&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;If debug mode is enabled, it uses &lt;code&gt;error.Error()&lt;/code&gt; as status message.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;debug&#34;&gt;Debug&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Echo#SetDebug(on bool)&lt;/code&gt; enable/disable debug mode.&lt;/p&gt;
+
+&lt;h3 id=&#34;logging&#34;&gt;Logging&lt;/h3&gt;
+
+&lt;h4 id=&#34;custom-logger&#34;&gt;Custom Logger&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;Echo#SetLogger(l log.Logger)&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;SetLogger defines a custom logger.&lt;/p&gt;
+
+&lt;h4 id=&#34;log-output&#34;&gt;Log Output&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;Echo#SetLogOutput(w io.Writer)&lt;/code&gt; sets the output destination for the logger. Default
+value is &lt;code&gt;os.Stdout&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;To completely disable logs use &lt;code&gt;Echo#SetLogOutput(io.Discard)&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;log-level&#34;&gt;Log Level&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;Echo#SetLogLevel(l log.Level)&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;SetLogLevel sets the log level for the logger. Default value &lt;code&gt;3&lt;/code&gt; (ERROR).
+Possible values:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;0&lt;/code&gt; (DEBUG)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;1&lt;/code&gt; (INFO)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;2&lt;/code&gt; (WARN)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;3&lt;/code&gt;   (ERROR)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;4&lt;/code&gt;   (FATAL)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;5&lt;/code&gt; (OFF)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;http-engine&#34;&gt;HTTP Engine&lt;/h3&gt;
+
+&lt;p&gt;Echo currently supports standard and &lt;a href=&#34;https://github.com/valyala/fasthttp&#34;&gt;fasthttp&lt;/a&gt;
+server engines. Echo utilizes interfaces to abstract the internal implementation
+of these servers so you can seamlessly switch from one engine to another based on
+your preference.&lt;/p&gt;
+
+&lt;h4 id=&#34;running-a-standard-http-server&#34;&gt;Running a standard HTTP server&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;e.Run(standard.New(&amp;quot;:1323&amp;quot;))&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;running-a-fasthttp-server&#34;&gt;Running a fasthttp server&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;e.Run(fasthttp.New(&amp;quot;:1323&amp;quot;))&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;running-a-server-with-tls-configuration&#34;&gt;Running a server with TLS configuration&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;e.Run(&amp;lt;engine&amp;gt;.WithTLS(&amp;quot;:1323&amp;quot;, &amp;quot;&amp;lt;certFile&amp;gt;&amp;quot;, &amp;quot;&amp;lt;keyFile&amp;gt;&amp;quot;))&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;running-a-server-with-engine-configuration&#34;&gt;Running a server with engine configuration&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;e.Run(&amp;lt;engine&amp;gt;.WithConfig(&amp;lt;config&amp;gt;))&lt;/code&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;configuration&#34;&gt;Configuration&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;Config struct {
+  Address      string        // TCP address to listen on.
+  Listener     net.Listener  // Custom `net.Listener`. If set, server accepts connections on it.
+  TLSCertFile  string        // TLS certificate file path.
+  TLSKeyFile   string        // TLS key file path.
+  ReadTimeout  time.Duration // Maximum duration before timing out read of the request.
+  WriteTimeout time.Duration // Maximum duration before timing out write of the response.
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;access-internal-server-instance-and-configure-its-properties&#34;&gt;Access internal server instance and configure its properties&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;s := standard.New(&amp;quot;:1323&amp;quot;)
+s.MaxHeaderBytes = 1 &amp;lt;&amp;lt; 20
+e.Run(s)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Error Handling</title>
+      <link>https://echo.labstack.com/guide/error-handling</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/guide/error-handling</guid>
+      <description>
+
+&lt;h2 id=&#34;error-handling&#34;&gt;Error Handling&lt;/h2&gt;
+
+&lt;p&gt;Echo advocates centralized HTTP error handling by returning error from middleware
+or handlers.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Log errors from a unified location&lt;/li&gt;
+&lt;li&gt;Send customized HTTP responses&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;For example, when basic auth middleware finds invalid credentials it returns
+&lt;code&gt;401 - Unauthorized&lt;/code&gt; error, aborting the current HTTP request.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+	&amp;quot;net/http&amp;quot;
+
+	&amp;quot;github.com/labstack/echo&amp;quot;
+)
+
+func main() {
+	e := echo.New()
+	e.Use(func(c echo.Context) error {
+		// Extract the credentials from HTTP request header and perform a security
+		// check
+
+		// For invalid credentials
+		return echo.NewHTTPError(http.StatusUnauthorized)
+	})
+	e.GET(&amp;quot;/welcome&amp;quot;, welcome)
+	e.Run(&amp;quot;:1323&amp;quot;)
+}
+
+func welcome(c echo.Context) error {
+	return c.String(http.StatusOK, &amp;quot;Welcome!&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;See how &lt;a href=&#34;https://echo.labstack.com/guide/customization#http-error-handler&#34;&gt;HTTPErrorHandler&lt;/a&gt; handles it.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Installation</title>
+      <link>https://echo.labstack.com/guide/installation</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/guide/installation</guid>
+      <description>
+
+&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
+
+&lt;p&gt;Echo is developed and tested using Go &lt;code&gt;1.5.x&lt;/code&gt; and &lt;code&gt;1.6.x&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;install-the-latest-stable-version-of-echo-via-go-get&#34;&gt;Install the latest stable version of Echo via &lt;code&gt;go get&lt;/code&gt;&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ go get github.com/labstack/echo/...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;to-update-echo&#34;&gt;To update Echo&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ go get -u github.com/labstack/echo/...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;migrating-from-v1-guide-migrating&#34;&gt;&lt;a href=&#34;https://echo.labstack.com/guide/migrating&#34;&gt;Migrating from v1&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Echo follows &lt;a href=&#34;http://semver.org&#34;&gt;semantic versioning&lt;/a&gt; managed through GitHub releases.
+Specific version of Echo can be installed using a &lt;a href=&#34;https://github.com/avelino/awesome-go#package-management&#34;&gt;package manager&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Migrating</title>
+      <link>https://echo.labstack.com/guide/migrating</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/guide/migrating</guid>
+      <description>
+
+&lt;h2 id=&#34;migrating-from-v1&#34;&gt;Migrating from v1&lt;/h2&gt;
+
+&lt;h3 id=&#34;change-log&#34;&gt;Change Log&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Good news, 85% of the API remains the same.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Engine&lt;/code&gt; interface to abstract &lt;code&gt;HTTP&lt;/code&gt; server implementation, allowing
+us to use HTTP servers beyond Go standard library. It currently supports standard and &lt;a href=&#34;https://github.com/valyala/fasthttp&#34;&gt;fasthttp&lt;/a&gt; server.&lt;/li&gt;
+&lt;li&gt;Context, Request and Response are converted to interfaces. &lt;a href=&#34;https://github.com/labstack/echo/issues/146&#34;&gt;More&amp;hellip;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Handler signature is changed to &lt;code&gt;func (c echo.Context) error&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Dropped auto wrapping of handler and middleware to enforce compile time check.&lt;/li&gt;
+&lt;li&gt;APIs to run middleware before or after the router, which doesn&amp;rsquo;t require &lt;code&gt;Echo#Hook&lt;/code&gt; API now.&lt;/li&gt;
+&lt;li&gt;Ability to define middleware at route level.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Echo#HTTPError&lt;/code&gt; exposed it&amp;rsquo;s fields &lt;code&gt;Code&lt;/code&gt; and &lt;code&gt;Message&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Option to specify log format in logger middleware and default logger.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;api&#34;&gt;API&lt;/h4&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;v1&lt;/th&gt;
+&lt;th&gt;v2&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;Context#Query()&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Context#QueryParam()&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;Context#Form()&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Context#FormValue()&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&#34;faq&#34;&gt;FAQ&lt;/h3&gt;
+
+&lt;p&gt;Q. How to access original objects from interfaces?&lt;/p&gt;
+
+&lt;p&gt;A. Only if you need to&amp;hellip;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// `*http.Request`
+c.Request().(*standard.Request).Request
+
+// `*http.URL`
+c.Request().URL().(*standard.URL).URL
+
+// Request `http.Header`
+c.Request().Header().(*standard.Header).Header
+
+// `http.ResponseWriter`
+c.Response().(*standard.Response).ResponseWriter
+
+// Response `http.Header`
+c.Response().Header().(*standard.Header).Header
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Q. How to use standard handler and middleware?&lt;/p&gt;
+
+&lt;p&gt;A.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import (
+	&amp;quot;net/http&amp;quot;
+
+	&amp;quot;github.com/labstack/echo&amp;quot;
+	&amp;quot;github.com/labstack/echo/engine/standard&amp;quot;
+)
+
+// Standard middleware
+func middleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		println(&amp;quot;standard middleware&amp;quot;)
+		next.ServeHTTP(w, r)
+	})
+}
+
+// Standard handler
+func handler(w http.ResponseWriter, r *http.Request) {
+	println(&amp;quot;standard handler&amp;quot;)
+}
+
+func main() {
+	e := echo.New()
+	e.Use(standard.WrapMiddleware(middleware))
+	e.GET(&amp;quot;/&amp;quot;, standard.WrapHandler(http.HandlerFunc(handler)))
+	e.Run(standard.New(&amp;quot;:1323&amp;quot;))
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;next&#34;&gt;Next?&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Browse through &lt;a href=&#34;https://echo.labstack.com/recipes/hello-world&#34;&gt;recipes&lt;/a&gt; freshly converted to v2.&lt;/li&gt;
+&lt;li&gt;Read documentation and dig into test cases.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Request</title>
+      <link>https://echo.labstack.com/guide/request</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/guide/request</guid>
+      <description>
+
+&lt;h2 id=&#34;http-request&#34;&gt;HTTP Request&lt;/h2&gt;
+
+&lt;h3 id=&#34;handler-path&#34;&gt;Handler path&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Context#Path()&lt;/code&gt; returns the registered path for the handler, it can be used in the
+middleware for logging purpose.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Example&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;e.Use(func(c echo.Context) error {
+    println(c.Path()) // Prints `/users/:name`
+    return nil
+})
+e.GET(&amp;quot;/users/:name&amp;quot;, func(c echo.Context) error) {
+    return c.String(http.StatusOK, name)
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;golang-org-x-net-context&#34;&gt;golang.org/x/net/context&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;echo.Context&lt;/code&gt; embeds &lt;code&gt;context.Context&lt;/code&gt; interface, so all it&amp;rsquo;s functions
+are available right from &lt;code&gt;echo.Context&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Example&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;e.GET(&amp;quot;/users/:name&amp;quot;, func(c echo.Context) error) {
+    c.SetNetContext(context.WithValue(nil, &amp;quot;key&amp;quot;, &amp;quot;val&amp;quot;))
+    // Pass it down...
+    // Use it...
+    val := c.Value(&amp;quot;key&amp;quot;).(string)
+    return c.String(http.StatusOK, name)
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;path-parameter&#34;&gt;Path parameter&lt;/h3&gt;
+
+&lt;p&gt;Path parameter can be retrieved either by name &lt;code&gt;Context#Param(name string) string&lt;/code&gt;
+or by index &lt;code&gt;Context#P(i int) string&lt;/code&gt;. Getting parameter by index gives a slightly
+better performance.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Example&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;e.GET(&amp;quot;/users/:name&amp;quot;, func(c echo.Context) error {
+	// By name
+	name := c.Param(&amp;quot;name&amp;quot;)
+
+	// By index
+	name := c.P(0)
+
+	return c.String(http.StatusOK, name)
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ curl http://localhost:1323/users/joe
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;query-parameter&#34;&gt;Query parameter&lt;/h3&gt;
+
+&lt;p&gt;Query parameter can be retrieved by name using &lt;code&gt;Context#QueryParam(name string)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Example&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;e.GET(&amp;quot;/users&amp;quot;, func(c echo.Context) error {
+	name := c.QueryParam(&amp;quot;name&amp;quot;)
+	return c.String(http.StatusOK, name)
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ curl -G -d &amp;quot;name=joe&amp;quot; http://localhost:1323/users
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;form-parameter&#34;&gt;Form parameter&lt;/h3&gt;
+
+&lt;p&gt;Form parameter can be retrieved by name using &lt;code&gt;Context#FormValue(name string)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Example&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;e.POST(&amp;quot;/users&amp;quot;, func(c echo.Context) error {
+	name := c.FormValue(&amp;quot;name&amp;quot;)
+	return c.String(http.StatusOK, name)
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ curl -d &amp;quot;name=joe&amp;quot; http://localhost:1323/users
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Routing</title>
+      <link>https://echo.labstack.com/guide/routing</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/guide/routing</guid>
+      <description>
+
+&lt;h2 id=&#34;routing&#34;&gt;Routing&lt;/h2&gt;
+
+&lt;p&gt;Echo&amp;rsquo;s router is &lt;a href=&#34;https://echo.labstack.com/#performance&#34;&gt;fast, optimized&lt;/a&gt; and
+flexible. It&amp;rsquo;s based on &lt;a href=&#34;http://en.wikipedia.org/wiki/Radix_tree&#34;&gt;radix tree&lt;/a&gt; data
+structure which makes route lookup really fast. Router leverages &lt;a href=&#34;https://golang.org/pkg/sync/#Pool&#34;&gt;sync pool&lt;/a&gt;
+to reuse memory and achieve zero dynamic memory allocation with no GC overhead.&lt;/p&gt;
+
+&lt;p&gt;Routes can be registered by specifying HTTP method, path and a matching handler.
+For example, code below registers a route for method &lt;code&gt;GET&lt;/code&gt;, path &lt;code&gt;/hello&lt;/code&gt; and a
+handler which sends &lt;code&gt;Hello, World!&lt;/code&gt; HTTP response.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// Handler
+func hello(c echo.Context) error {
+  	return c.String(http.StatusOK, &amp;quot;Hello, World!&amp;quot;)
+}
+
+// Route
+e.GET(&amp;quot;/hello&amp;quot;, hello)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can use &lt;code&gt;Echo.Any(path string, h Handler)&lt;/code&gt; to register a handler for all HTTP methods.
+If you want to register it for some methods use &lt;code&gt;Echo.Match(methods []string, path string, h Handler)&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Echo defines handler function as &lt;code&gt;func(echo.Context) error&lt;/code&gt; where &lt;code&gt;echo.Context&lt;/code&gt; primarily
+holds HTTP request and response interfaces.&lt;/p&gt;
+
+&lt;h3 id=&#34;match-any&#34;&gt;Match-any&lt;/h3&gt;
+
+&lt;p&gt;Matches zero or more characters in the path. For example, pattern &lt;code&gt;/users/*&lt;/code&gt; will
+match:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;/users/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/users/1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/users/1/files/1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/users/anything...&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;path-matching-order&#34;&gt;Path matching order&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Static&lt;/li&gt;
+&lt;li&gt;Param&lt;/li&gt;
+&lt;li&gt;Match any&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;example&#34;&gt;Example&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;e.GET(&amp;quot;/users/:id&amp;quot;, func(c echo.Context) error {
+	return c.String(http.StatusOK, &amp;quot;/users/:id&amp;quot;)
+})
+
+e.GET(&amp;quot;/users/new&amp;quot;, func(c echo.Context) error {
+	return c.String(http.StatusOK, &amp;quot;/users/new&amp;quot;)
+})
+
+e.GET(&amp;quot;/users/1/files/*&amp;quot;, func(c echo.Context) error {
+	return c.String(http.StatusOK, &amp;quot;/users/1/files/*&amp;quot;)
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Above routes would resolve in the following order:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;/users/new&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/users/:id&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/users/1/files/*&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Routes can be written in any order.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;group&#34;&gt;Group&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Echo#Group(prefix string, m ...Middleware) *Group&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Routes with common prefix can be grouped to define a new sub-router with optional
+middleware. In addition to specified middleware group also inherits parent middleware.
+To add middleware later in the group you can use &lt;code&gt;Group.Use(m ...Middleware)&lt;/code&gt;.
+Groups can also be nested.&lt;/p&gt;
+
+&lt;p&gt;In the code below, we create an admin group which requires basic HTTP authentication
+for routes &lt;code&gt;/admin/*&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;g := e.Group(&amp;quot;/admin&amp;quot;)
+g.Use(middleware.BasicAuth(func(username, password string) bool {
+	if username == &amp;quot;joe&amp;quot; &amp;amp;&amp;amp; password == &amp;quot;secret&amp;quot; {
+		return true
+	}
+	return false
+}))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;uri-building&#34;&gt;URI building&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Echo.URI&lt;/code&gt; can be used to generate URI for any handler with specified path parameters.
+It&amp;rsquo;s helpful to centralize all your URI patterns which ease in refactoring your
+application.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;e.URI(h, 1)&lt;/code&gt; will generate &lt;code&gt;/users/1&lt;/code&gt; for the route registered below&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// Handler
+h := func(c echo.Context) error {
+	return c.String(http.StatusOK, &amp;quot;OK&amp;quot;)
+}
+
+// Route
+e.GET(&amp;quot;/users/:id&amp;quot;, h)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Static Files</title>
+      <link>https://echo.labstack.com/guide/static-files</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/guide/static-files</guid>
+      <description>
+
+&lt;p&gt;Images, JavaScript, CSS, PDF, Fonts and so on&amp;hellip;&lt;/p&gt;
+
+&lt;h2 id=&#34;static-files&#34;&gt;Static Files&lt;/h2&gt;
+
+&lt;h3 id=&#34;{#HUGOSHORTCODE-1#&#34;&gt;[Using Static Middleware](&lt;/h3&gt;
+
+&lt;p&gt;#})&lt;/p&gt;
+
+&lt;h3 id=&#34;using-echo-static&#34;&gt;Using &lt;code&gt;Echo#Static()&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Echo#Static(prefix, root string)&lt;/code&gt; registers a new route with path prefix to serve
+static files from the provided root directory.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Usage 1&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;e := echo.New()
+e.Static(&amp;quot;/static&amp;quot;, &amp;quot;assets&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This will serve any file from the assets directory for path &lt;code&gt;/static/*&lt;/code&gt;. For example,
+a request to &lt;code&gt;/static/js/main.js&lt;/code&gt; will fetch and serve &lt;code&gt;assets/js/main.js&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Usage 2&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;e := echo.New()
+e.Static(&amp;quot;/&amp;quot;, &amp;quot;assets&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This will serve any file from the assets directory for path &lt;code&gt;/*&lt;/code&gt;. For example,
+a request to &lt;code&gt;/js/main.js&lt;/code&gt; will fetch and serve &lt;code&gt;assets/js/main.js&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;h3 id=&#34;using-echo-file&#34;&gt;Using &lt;code&gt;Echo#File()&lt;/code&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Echo#File(path, file string)&lt;/code&gt; registers a new route with path to serve a static
+file.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Usage 1&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Serving an index page from &lt;code&gt;public/index.html&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;e.File(&amp;quot;/&amp;quot;, &amp;quot;public/index.html&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;Usage 2&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Serving a favicon from &lt;code&gt;images/favicon.ico&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;e.File(&amp;quot;/favicon.ico&amp;quot;, &amp;quot;images/favicon.ico&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Templates</title>
+      <link>https://echo.labstack.com/guide/templates</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/guide/templates</guid>
+      <description>
+
+&lt;h2 id=&#34;templates&#34;&gt;Templates&lt;/h2&gt;
+
+&lt;h3 id=&#34;template-rendering&#34;&gt;Template Rendering&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Context#Render(code int, name string, data interface{}) error&lt;/code&gt; renders a template
+with data and sends a text/html response with status code. Templates can be registered
+using &lt;code&gt;Echo.SetRenderer()&lt;/code&gt;, allowing us to use any template engine.&lt;/p&gt;
+
+&lt;p&gt;Example below shows how to use Go &lt;code&gt;html/template&lt;/code&gt;:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Implement &lt;code&gt;echo.Renderer&lt;/code&gt; interface&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;type Template struct {
+    templates *template.Template
+}
+
+func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
+    return t.templates.ExecuteTemplate(w, name, data)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Pre-compile templates&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;public/views/hello.html&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;{{define &amp;quot;hello&amp;quot;}}Hello, {{.}}!{{end}}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;t := &amp;amp;Template{
+    templates: template.Must(template.ParseGlob(&amp;quot;public/views/*.html&amp;quot;)),
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Register templates&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;e := echo.New()
+e.SetRenderer(t)
+e.GET(&amp;quot;/hello&amp;quot;, Hello)
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Render a template inside your handler&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func Hello(c echo.Context) error {
+    return c.Render(http.StatusOK, &amp;quot;hello&amp;quot;, &amp;quot;World&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Testing</title>
+      <link>https://echo.labstack.com/guide/testing</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://echo.labstack.com/guide/testing</guid>
+      <description>
+
+&lt;h2 id=&#34;testing&#34;&gt;Testing&lt;/h2&gt;
+
+&lt;h3 id=&#34;testing-handler&#34;&gt;Testing Handler&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;GET&lt;/code&gt; &lt;code&gt;/users/:id&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Handler below retrieves user by id from the database. If user is not found it returns
+&lt;code&gt;404&lt;/code&gt; error with a message.&lt;/p&gt;
+
+&lt;h4 id=&#34;createuser&#34;&gt;CreateUser&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;POST&lt;/code&gt; &lt;code&gt;/users&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Accepts JSON payload&lt;/li&gt;
+&lt;li&gt;On success &lt;code&gt;201 - Created&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;On error &lt;code&gt;500 - Internal Server Error&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;getuser&#34;&gt;GetUser&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;GET&lt;/code&gt; &lt;code&gt;/users/:email&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;On success &lt;code&gt;200 - OK&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;On error &lt;code&gt;404 - Not Found&lt;/code&gt; if user is not found otherwise &lt;code&gt;500 - Internal Server Error&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;code&gt;handler.go&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package handler
+
+import (
+	&amp;quot;net/http&amp;quot;
+
+	&amp;quot;github.com/labstack/echo&amp;quot;
+)
+
+type (
+	User struct {
+		Name  string `json:&amp;quot;name&amp;quot; form:&amp;quot;name&amp;quot;`
+		Email string `json:&amp;quot;email&amp;quot; form:&amp;quot;email&amp;quot;`
+	}
+	handler struct {
+		db map[string]*User
+	}
+)
+
+func (h *handler) createUser(c echo.Context) error {
+	u := new(User)
+	if err := c.Bind(u); err != nil {
+		return err
+	}
+	return c.JSON(http.StatusCreated, u)
+}
+
+func (h *handler) getUser(c echo.Context) error {
+	email := c.Param(&amp;quot;email&amp;quot;)
+	user := h.db[email]
+	if user == nil {
+		return echo.NewHTTPError(http.StatusNotFound, &amp;quot;user not found&amp;quot;)
+	}
+	return c.JSON(http.StatusOK, user)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;handler_test.go&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package handler
+
+import (
+	&amp;quot;net/http&amp;quot;
+	&amp;quot;net/http/httptest&amp;quot;
+	&amp;quot;strings&amp;quot;
+	&amp;quot;testing&amp;quot;
+
+	&amp;quot;github.com/labstack/echo&amp;quot;
+	&amp;quot;github.com/labstack/echo/engine/standard&amp;quot;
+	&amp;quot;github.com/stretchr/testify/assert&amp;quot;
+)
+
+var (
+	mockDB = map[string]*User{
+		&amp;quot;jon@labstack.com&amp;quot;: &amp;amp;User{&amp;quot;Jon Snow&amp;quot;, &amp;quot;jon@labstack.com&amp;quot;},
+	}
+	userJSON = `{&amp;quot;name&amp;quot;:&amp;quot;Jon Snow&amp;quot;,&amp;quot;email&amp;quot;:&amp;quot;jon@labstack.com&amp;quot;}`
+)
+
+func TestCreateUser(t *testing.T) {
+	// Setup
+	e := echo.New()
+	req, err := http.NewRequest(echo.POST, &amp;quot;/users&amp;quot;, strings.NewReader(userJSON))
+	if assert.NoError(t, err) {
+		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+		rec := httptest.NewRecorder()
+		c := e.NewContext(standard.NewRequest(req, e.Logger()), standard.NewResponse(rec, e.Logger()))
+		h := &amp;amp;handler{mockDB}
+
+		// Assertions
+		if assert.NoError(t, h.createUser(c)) {
+			assert.Equal(t, http.StatusCreated, rec.Code)
+			assert.Equal(t, userJSON, rec.Body.String())
+		}
+	}
+}
+
+func TestGetUser(t *testing.T) {
+	// Setup
+	e := echo.New()
+	req := new(http.Request)
+	rec := httptest.NewRecorder()
+	c := e.NewContext(standard.NewRequest(req, e.Logger()), standard.NewResponse(rec, e.Logger()))
+	c.SetPath(&amp;quot;/users/:email&amp;quot;)
+	c.SetParamNames(&amp;quot;email&amp;quot;)
+	c.SetParamValues(&amp;quot;jon@labstack.com&amp;quot;)
+	h := &amp;amp;handler{mockDB}
+
+	// Assertions
+	if assert.NoError(t, h.getUser(c)) {
+		assert.Equal(t, http.StatusOK, rec.Code)
+		assert.Equal(t, userJSON, rec.Body.String())
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;using-form-payload&#34;&gt;Using Form Payload&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;f := make(url.Values)
+f.Set(&amp;quot;name&amp;quot;, &amp;quot;Jon Snow&amp;quot;)
+f.Set(&amp;quot;email&amp;quot;, &amp;quot;jon@labstack.com&amp;quot;)
+req, err := http.NewRequest(echo.POST, &amp;quot;/&amp;quot;, strings.NewReader(f.Encode()))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;setting-path-params&#34;&gt;Setting Path Params&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;c.SetParamNames(&amp;quot;id&amp;quot;, &amp;quot;email&amp;quot;)
+c.SetParamValues(&amp;quot;1&amp;quot;, &amp;quot;jon@labstack.com&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;setting-query-params&#34;&gt;Setting Query Params&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;q := make(url.Values)
+q.Set(&amp;quot;email&amp;quot;, &amp;quot;jon@labstack.com&amp;quot;)
+req, err := http.NewRequest(echo.POST, &amp;quot;/?&amp;quot;+q.Encode(), nil)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;testing-middleware&#34;&gt;Testing Middleware&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;TBD&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;You can looking to built-in middleware &lt;a href=&#34;https://github.com/labstack/echo/tree/master/middleware&#34;&gt;test cases&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
